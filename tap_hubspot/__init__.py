@@ -329,8 +329,14 @@ default_contact_params = {
 def sync_contacts(STATE, ctx):
     catalog = ctx.get_catalog_from_id(singer.get_currently_syncing(STATE))
     bookmark_key = 'versionTimestamp'
+    bookmark_resume_key = 'resume_from_vid'
     start = utils.strptime_with_tz(get_start(STATE, "contacts", bookmark_key))
-    LOGGER.info("sync_contacts from %s", start)
+    resume_from_vid = get_start(STATE, "contacts", bookmark_resume_key)
+    if resume_from_vid == CONFIG['start_date']:
+        resume_from_vid = '0'
+    else:
+        STATE = singer.set_offset(STATE, "contacts", 'vidOffset', resume_from_vid)
+    LOGGER.info("sync_contacts from %s starting from vid offset %s", start, resume_from_vid)
 
     max_bk_value = start
     schema = load_schema("contacts")
