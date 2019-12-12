@@ -88,6 +88,7 @@ ENDPOINTS = {
     "email_events":         "/email/public/v1/events",
     "contact_lists":        "/contacts/v1/lists",
     "forms":                "/forms/v2/forms",
+    "form_submissions":     "/form-integrations/v1/submissions/forms/{form_guid}",
     "workflows":            "/automation/v3/workflows",
     "owners":               "/owners/v2/owners",
 }
@@ -1069,7 +1070,7 @@ def discover_schemas():
     schema, mdata = load_discovered_schema(contacts_by_company)
 
     result['streams'].append({'stream': CONTACTS_BY_COMPANY,
-                              'tap_stream           _id': CONTACTS_BY_COMPANY,
+                              'tap_stream_id': CONTACTS_BY_COMPANY,
                               'schema': schema,
                               'metadata': mdata})
 
